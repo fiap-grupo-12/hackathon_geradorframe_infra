@@ -32,15 +32,15 @@ jobs:
           if: github.ref == 'refs/heads/main' && github.event_name == 'push'
           run: |
               BUCKET_NAME="terraform-tfstate-grupo12-fiap-2025"
-                REGION="sa-east-1"
-    
-                if ! aws s3api head-bucket --bucket "$BUCKET_NAME" 2>/dev/null; then
-                  echo "Bucket não existe. Criando bucket..."
-                  aws s3api create-bucket --bucket "$BUCKET_NAME"
-                else
-                  echo "Bucket validado."
-                fi
-
+              REGION="sa-east-1"
+          
+              if ! aws s3api head-bucket --bucket "$BUCKET_NAME" 2>/dev/null; then
+                echo "Bucket não existe. Criando bucket..."
+                aws s3api create-bucket --bucket "$BUCKET_NAME" --create-bucket-configuration LocationConstraint="$REGION"
+              else
+                echo "Bucket validado."
+              fi
+          
         - name: Setup Terraform
           uses: hashicorp/setup-terraform@v1
     
