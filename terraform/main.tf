@@ -27,17 +27,17 @@ resource "aws_sqs_queue" "processar_arquivo" {
 
 # S3 
 resource "aws_s3_bucket" "code-bucket" {
-  bucket = "hackathon-code-bucket"
+  bucket = "hackathon-grupo12-fiap-code--bucket"
 }
 
 # S3 Arquivos
 resource "aws_s3_bucket" "files-in-bucket" {
-  bucket = "hackathon-files-in-bucket"
+  bucket = "hackathon-grupo12-fiap-files-in-bucket"
 }
 
 # S3 Arquivos
 resource "aws_s3_bucket" "files-out-bucket" {
-  bucket = "hackathon-files-out-bucket"
+  bucket = "hackathon-grupo12-fiap-files-out-bucket"
 }
 
 data "aws_iam_policy_document" "queue_policy" {
