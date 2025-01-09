@@ -31,8 +31,13 @@ resource "aws_s3_bucket" "code-bucket" {
 }
 
 # S3 Arquivos
-resource "aws_s3_bucket" "files-bucket" {
-  bucket = "hackathon-files-bucket"
+resource "aws_s3_bucket" "files-in-bucket" {
+  bucket = "hackathon-files-in-bucket"
+}
+
+# S3 Arquivos
+resource "aws_s3_bucket" "files-out-bucket" {
+  bucket = "hackathon-files-out-bucket"
 }
 
 data "aws_iam_policy_document" "queue_policy" {
@@ -50,13 +55,13 @@ data "aws_iam_policy_document" "queue_policy" {
     condition {
       test     = "ArnEquals"
       variable = "aws:SourceArn"
-      values   = [aws_s3_bucket.files-bucket.arn]
+      values   = [aws_s3_bucket.files-in-bucket.arn]
     }
   }
 }
 
 resource "aws_s3_bucket_notification" "bucket_notification" {
-  bucket = aws_s3_bucket.files-bucket.id
+  bucket = aws_s3_bucket.files-in-bucket.id
 
   queue {
     queue_arn     = aws_sqs_queue.processar_arquivo.arn
