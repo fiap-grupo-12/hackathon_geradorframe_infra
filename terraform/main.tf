@@ -1,12 +1,12 @@
 provider "aws" {
-  region = "us-east-1"
+  region = "sa-east-1"
 }
 
 terraform {
   backend "s3" {
     bucket = "terraform-tfstate-grupo12-fiap-2025"
     key    = "infra/terraform.tfstate"
-    region = "us-east-1"
+    region = "sa-east-1"
   }
 }
 
