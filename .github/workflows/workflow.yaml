@@ -9,7 +9,7 @@ permissions:
 
 jobs:
     Terraform:
-        name: 'Terraform - API'
+        name: 'Terraform - Create Infra'
         runs-on: ubuntu-latest
 
         defaults:

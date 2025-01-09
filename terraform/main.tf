@@ -58,7 +58,7 @@ data "aws_iam_policy_document" "queue_policy" {
 
 # SQS processar_arquivo
 resource "aws_sqs_queue" "processar_arquivo" {
-  name = "sqs_processar_arquivo"
+  name   = "sqs_processar_arquivo"
   policy = data.aws_iam_policy_document.queue_policy.json
 }
 
