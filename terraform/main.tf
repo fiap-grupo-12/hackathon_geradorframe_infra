@@ -20,10 +20,6 @@ resource "aws_ecs_cluster" "main" {
   name = "hackathon-ecs-cluster"
 }
 
-# SQS processar_arquivo
-resource "aws_sqs_queue" "processar_arquivo" {
-  name = "sqs_processar_arquivo"
-}
 
 # S3 
 resource "aws_s3_bucket" "code-bucket" {
@@ -58,6 +54,12 @@ data "aws_iam_policy_document" "queue_policy" {
       values   = [aws_s3_bucket.files-in-bucket.arn]
     }
   }
+}
+
+# SQS processar_arquivo
+resource "aws_sqs_queue" "processar_arquivo" {
+  name = "sqs_processar_arquivo"
+  policy = data.aws_iam_policy_document.queue_policy.json
 }
 
 resource "aws_s3_bucket_notification" "bucket_notification" {
