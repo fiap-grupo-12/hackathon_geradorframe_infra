@@ -23,7 +23,7 @@ resource "aws_ecs_cluster" "main" {
 
 # S3 
 resource "aws_s3_bucket" "code-bucket" {
-  bucket = "hackathon-grupo12-fiap-code--bucket"
+  bucket = "hackathon-grupo12-fiap-code-bucket"
 }
 
 # S3 Arquivos
