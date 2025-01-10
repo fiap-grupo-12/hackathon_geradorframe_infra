@@ -66,8 +66,9 @@ resource "aws_s3_bucket_notification" "bucket_notification" {
   bucket = aws_s3_bucket.files-in-bucket.id
 
   queue {
-    queue_arn = aws_sqs_queue.processar_arquivo.arn
-    events    = ["s3:ObjectCreated:*"]
+    queue_arn     = aws_sqs_queue.processar_arquivo.arn
+    events        = ["s3:ObjectCreated:*"]
+    filter_suffix = ".mp4"
   }
 }
 
