@@ -26,12 +26,12 @@ resource "aws_s3_bucket" "code-bucket" {
   bucket = "hackathon-grupo12-fiap-code-bucket"
 }
 
-# S3 Arquivos
+# S3 Arquivos out
 resource "aws_s3_bucket" "files-in-bucket" {
   bucket = "hackathon-grupo12-fiap-files-in-bucket"
 }
 
-# S3 Arquivos
+# S3 Arquivos in
 resource "aws_s3_bucket" "files-out-bucket" {
   bucket = "hackathon-grupo12-fiap-files-out-bucket"
 }
@@ -58,8 +58,26 @@ data "aws_iam_policy_document" "queue_policy" {
 
 # SQS processar_arquivo
 resource "aws_sqs_queue" "processar_arquivo" {
-  name   = "sqs_processar_arquivo"
-  policy = data.aws_iam_policy_document.queue_policy.json
+  name                       = "sqs_processar_arquivo"
+  policy                     = data.aws_iam_policy_document.queue_policy.json
+  visibility_timeout_seconds = 960
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.processar_arquivo_dlq.arn
+    maxReceiveCount     = 5
+  })
+}
+
+resource "aws_sqs_queue" "processar_arquivo_dlq" {
+  name = "processar_arquivo_dlq"
+}
+
+resource "aws_sqs_queue_redrive_allow_policy" "processar_arquivo_dlq_policy" {
+  queue_url = aws_sqs_queue.processar_arquivo_dlq.id
+
+  redrive_allow_policy = jsonencode({
+    redrivePermission = "byQueue",
+    sourceQueueArns   = [aws_sqs_queue.processar_arquivo.arn]
+  })
 }
 
 resource "aws_s3_bucket_notification" "bucket_notification" {
@@ -87,4 +105,11 @@ resource "aws_dynamodb_table" "processamento_arquivo" {
   tags = {
     Team = "Grupo12Hackathon"
   }
+}
+
+# SQS Notificação
+resource "aws_sqs_queue" "processar_arquivo" {
+  name                       = "sqs_processar_arquivo"
+  policy                     = data.aws_iam_policy_document.queue_policy.json
+  visibility_timeout_seconds = 120
 }
