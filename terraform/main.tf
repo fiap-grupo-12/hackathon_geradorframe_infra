@@ -68,7 +68,7 @@ resource "aws_sqs_queue" "processar_arquivo" {
 }
 
 resource "aws_sqs_queue" "processar_arquivo_dlq" {
-  name = "processar_arquivo_dlq"
+  name = "sqs_processar_arquivo_dlq"
 }
 
 resource "aws_sqs_queue_redrive_allow_policy" "processar_arquivo_dlq_policy" {
