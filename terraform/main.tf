@@ -108,8 +108,7 @@ resource "aws_dynamodb_table" "processamento_arquivo" {
 }
 
 # SQS Notificação
-resource "aws_sqs_queue" "processar_arquivo" {
-  name                       = "sqs_processar_arquivo"
-  policy                     = data.aws_iam_policy_document.queue_policy.json
+resource "aws_sqs_queue" "sqs_notificacao" {
+  name                       = "sqs_notificacao"
   visibility_timeout_seconds = 120
 }
